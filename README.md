@@ -71,6 +71,7 @@ from src.rabbitmq as RabbitMQ
 smswithoutborders_dev_id = ""
 try:
 	r = RabbitMQ(dev_id=smswithoutborders_dev_id)
+	r.delete()
 except Exception as error:
 	raise error
 ```
