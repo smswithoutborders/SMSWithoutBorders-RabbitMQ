@@ -2,7 +2,6 @@
 
 import sys, os
 import logging
-import threading
 import subprocess
 
 logging.basicConfig(level=logging.DEBUG)
@@ -17,33 +16,6 @@ class RabbitMQ:
         """
         """
         self.dev_id = dev_id
-
-
-    @classmethod
-    def __start_rabbitmq_server__(cls) -> str:
-        try:
-            start_rabbitmq_service=cls.rabbitmq_server
-            output = subprocess.check_output(start_rabbitmq_service.split(' '), 
-                    stderr=subprocess.STDOUT).decode('unicode_escape')
-
-        except subprocess.CalledProcessError as error:
-            logging.exception(error)
-            logging.debug(output)
-
-        else:
-            logging.debug("Finished running threading process....")
-            logging.debug(output)
-
-
-    @classmethod
-    def start_service(cls) -> str:
-        """
-        """
-        # start_rabbitmq_service=f"./sbin/rabbitmq-server -detached"
-        rabbitmq_thread = threading.Thread(target=cls.__start_rabbitmq_server__,
-                daemon=True)
-        rabbitmq_thread.start()
-        logging.debug("[*] start rabbitmq server")
         
 
     def add_user(self, dev_key: str) -> None:
@@ -95,8 +67,38 @@ class RabbitMQ:
         except Exception as error:
             raise error
 
-        return False
+    @staticmethod
+    def list() -> list:
+        """
+        """
+        try:
+            list_users_commands = RabbitMQ.rabbitmqctl + " list_users"
+            output = subprocess.check_output(list_users_commands.split(' '), 
+                    stderr=subprocess.STDOUT).decode('unicode_escape')
 
+        except subprocess.CalledProcessError as error:
+            """TODO: 
+            check if user already exist
+            """
+            raise error
+
+        except Exception as error:
+            raise error
+        else:
+            return RabbitMQ._parse_users_(output)
+
+    @classmethod
+    def _parse_users_(cls, data) -> list:
+        """
+        """
+        data = data.split('\n')[2:]
+        users = []
+        for line in data:
+            line = line.split("[")
+            line = line[0].rstrip()
+            users.append(line)
+
+        return users
 
     def exist(self) -> bool:
         """
@@ -117,12 +119,8 @@ class RabbitMQ:
             raise error
         
         else:
-            output = output.split('\n')[2:]
-            for line in output:
-                if line.find(self.dev_id) > -1:
-                    return True
-
-        return False
+            users = self._parse_users_(output)
+            return self.dev_id in users
     
     def __set_users_privilege__(self) -> None:
         """
