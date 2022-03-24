@@ -40,7 +40,20 @@ make start
 make delete
 ```
 
-### Lib Usage
+### Usage
+
+#### RabbitMQ Usage
+- *Enable management plugin:* View and manage RabbitMQ instances on browser (http://{node-hostname}:15672/)
+
+> For example
+> http://localhost:15672/
+
+```bash
+./deps/builds/rabbitmq_server-3.9.9/sbin/rabbitmq-plugins enable rabbitmq_management
+```
+More information: [https://www.rabbitmq.com/management.html](https://www.rabbitmq.com/management.html)
+
+#### Python3 Usage
 - Import RabbitMQ libs
 ```python3
 from src.rabbitmq as RabbitMQ
