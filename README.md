@@ -9,12 +9,12 @@ sudo npm install -g pm2
 
 - Erlang (minimum 23)
 
->> Arch
+> Arch
 ```bash
 sudo pacman -S erlang
 ```
 
->> Ubuntu
+> Ubuntu
 ```bash
 sudo apt install wget
 wget -O- https://packages.erlang-solutions.com/ubuntu/erlang_solutions.asc | sudo apt-key add -
@@ -48,6 +48,7 @@ from src.rabbitmq as RabbitMQ
 
 - Add new users
 ```python3
+from src.rabbitmq as RabbitMQ
 
 # From Dev SMSWithoutBorders
 smswithoutborders_dev_id = ""
@@ -65,6 +66,7 @@ except Exception as error:
 
 - Delete users
 ```python3
+from src.rabbitmq as RabbitMQ
 
 smswithoutborders_dev_id = ""
 try:
@@ -75,6 +77,7 @@ except Exception as error:
 
 - Check if user already exist
 ```python3
+from src.rabbitmq as RabbitMQ
 
 smswithoutborders_dev_id = ""
 try:
