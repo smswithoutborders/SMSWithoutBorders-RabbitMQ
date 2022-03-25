@@ -56,12 +56,12 @@ More information: [https://www.rabbitmq.com/management.html](https://www.rabbitm
 #### Python3 Usage
 - Import RabbitMQ libs
 ```python3
-from src.rabbitmq as RabbitMQ
+from src.rabbitmq import RabbitMQ
 ```
 
 - Add new users
 ```python3
-from src.rabbitmq as RabbitMQ
+from src.rabbitmq import RabbitMQ
 
 # From Dev SMSWithoutBorders
 smswithoutborders_dev_id = ""
@@ -79,7 +79,7 @@ except Exception as error:
 
 - Delete users
 ```python3
-from src.rabbitmq as RabbitMQ
+from src.rabbitmq import RabbitMQ
 
 smswithoutborders_dev_id = ""
 try:
@@ -91,7 +91,7 @@ except Exception as error:
 
 - Check if user already exist
 ```python3
-from src.rabbitmq as RabbitMQ
+from src.rabbitmq import RabbitMQ
 
 smswithoutborders_dev_id = ""
 try:
@@ -100,6 +100,27 @@ try:
 		print("user exist")
 	else:
 		print("user does not exist")
+except Exception as error:
+	raise error
+```
+
+- Queue SMS messages
+```python3
+from src.rabbitmq import RabbitMQ
+
+# operator_name = name of operator e.g MTN Cameroon (provided by user)
+# text = message to be sent as SMS
+# number = reciepeints phone number
+
+data = {
+"operator_name":"",
+"text":"",
+"number":"",
+}
+
+try:
+	r = RabbitMQ(dev_id=smswithoutborders_dev_id)
+	r.request_sms(data=data)
 except Exception as error:
 	raise error
 ```
