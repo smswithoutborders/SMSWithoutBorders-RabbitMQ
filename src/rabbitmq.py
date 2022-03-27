@@ -155,8 +155,8 @@ class RabbitMQ:
         self,
         data: dict,
         rabbitmq_host_url: str = "127.0.0.1",
-        rabbitmq_exchange_name: str = "OUTGOING_SMS",
-        rabbitmq_queue_name: str = "DEKU_CLUSTER_SMS",
+        rabbitmq_exchange_name: str = "DEKU_CLUSTER_SMS",
+        rabbitmq_queue_name: str = "OUTGOING_SMS",
         rabbitmq_exchange_type: str = "topic",
     ) -> None:
         """ """
@@ -184,7 +184,7 @@ class RabbitMQ:
 
         operator_name = data["operator_name"].lower()
         queue_name = "%s_%s_%s" % (self.dev_id, rabbitmq_queue_name, operator_name)
-        routing_key = "%s_%s_%s" % (self.dev_id, rabbitmq_queue_name, operator_name)
+        routing_key = "%s_%s.%s" % (self.dev_id, rabbitmq_queue_name, operator_name)
 
         """
         FIXME: If queue is created here - might lead to exception handling user created
