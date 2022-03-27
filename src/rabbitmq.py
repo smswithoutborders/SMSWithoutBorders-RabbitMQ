@@ -135,7 +135,7 @@ class RabbitMQ:
             # Second ".*" for write permission on every entity
             # Third ".*" for read permission on every entity
             update_user_permissions= self.rabbitmqctl + \
-                    f" set_permissions -p / {self.dev_id} .* .* .*"
+                    f' set_permissions -p "/" "{self.dev_id}" ".*" ".*" ".*"'
 
             output = subprocess.check_output(
                     update_user_permissions.split(' '), 
