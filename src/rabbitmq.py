@@ -50,8 +50,15 @@ class RabbitMQ:
                 raise error
 
             else:
-                logging.debug("[*] Add user output: %s", output)
-                self.__set_users_privilege__()
+                try:
+                    logging.debug("[*] New user added")
+                    self.__set_users_privilege__()
+                    logging.debug("[*] User privilege set")
+                except Exception as error:
+                    raise error
+                else:
+                    self.__set_users_tag__()
+                    logging.debug("[*] User tag set")
 
     def delete(self) -> None:
         """ """
@@ -124,6 +131,28 @@ class RabbitMQ:
         else:
             users = self._parse_users_(output)
             return self.dev_id in users
+
+    def __set_users_tag__(self) -> None:
+        """
+        Exceptions:
+            subprocess.CalledProcessError:
+                When encounters an issue with locally installed instance of
+                RabbitMQ (rabbitmq-server).
+        """
+        try:
+            update_user_permissions= self.rabbitmqctl + \
+                    f" set_user_tags {self.dev_id} management"
+
+            output = subprocess.check_output(
+                update_user_permissions.split(" "), stderr=subprocess.STDOUT
+            ).decode("unicode_escape")
+
+        except subprocess.CalledProcessError as error:
+            raise error
+        except Exception as error:
+            raise error
+        else:
+            logging.debug("[*] Set users privilege: %s", output)
 
     def __set_users_privilege__(self) -> None:
         """
