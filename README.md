@@ -32,6 +32,7 @@ sudo apt-get install -y erlang-base \
 ### Installation
 ```bash
 make
+make install
 make start
 ```
 
