@@ -235,7 +235,7 @@ class RabbitMQ:
         if not "number" in data:
             raise Exception("Missing number in data")
 
-        operator_name = data["operator_name"].lower()
+        operator_name = data["operator_name"]
         queue_name = "%s_%s_%s" % (self.dev_id, rabbitmq_queue_name, operator_name)
         routing_key = "%s_%s.%s" % (self.dev_id, rabbitmq_queue_name, operator_name)
 
