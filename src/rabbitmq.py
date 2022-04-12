@@ -5,6 +5,7 @@ import logging
 import subprocess
 import pika
 import json
+import ssl
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -187,11 +188,34 @@ class RabbitMQ:
         rabbitmq_exchange_name: str = "DEKU_CLUSTER_SMS",
         rabbitmq_queue_name: str = "OUTGOING_SMS",
         rabbitmq_exchange_type: str = "topic",
+        rabbitmq_port: str="5672"
     ) -> None:
         """ """
 
+        import configparser
+        __config = configparser.ConfigParser()
+
+        config_filepath = os.path.join(os.path.dirname(__file__), "..", "config.ini")
+        __config.read(config_filepath)
+
+        conn_params = None
+        if __config.getboolean('ssl', 'active'):
+
+            context = ssl.create_default_context(cafile=__config['ssl']['cacert']) 
+            context.load_cert_chain(__config['ssl']['crt'], __config['ssl']['key'])
+
+            ssl_options = pika.SSLOptions(context)
+            logging.error("ssl connecting on: %s", __config['ssl']['host'])
+            conn_params = pika.ConnectionParameters(
+                    port=__config['ssl']['port'], 
+                    ssl_options=ssl_options)
+        else:
+            conn_params = pika.ConnectionParameters( 
+                    host=rabbitmq_host_url, 
+                    port=rabbitmq_port)
+
         connection = pika.BlockingConnection(
-            pika.ConnectionParameters(rabbitmq_host_url)
+                conn_params
         )
         channel = connection.channel()
 

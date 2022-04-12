@@ -8,6 +8,8 @@ configure:
 	@echo -e "[*] Extracting dependencies..."
 	@tar -xf ${rabbitmq_instance} -C deps/builds/
 	@echo -e "[*] Done!"
+	@cp example.config.ini config.ini
+	@echo ">> Edit config.ini in cases where TLPs connections will be used"
 
 start:
 	@echo -e "[*] Starting rabbitmq instances..."
