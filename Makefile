@@ -10,6 +10,7 @@ configure:
 	@echo -e "[*] Done!"
 	@cp example.config.ini config.ini
 	@echo ">> Edit config.ini in cases where TLPs connections will be used"
+	@python3 -m venv venv
 
 start:
 	@echo -e "[*] Starting rabbitmq instances..."

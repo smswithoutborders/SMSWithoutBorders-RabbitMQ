@@ -17,14 +17,12 @@ sudo pacman -S erlang
 > Ubuntu
 ```bash
 sudo apt install wget
-wget -O- https://packages.erlang-solutions.com/ubuntu/erlang_solutions.asc | sudo apt-key add -
-echo "deb https://packages.erlang-solutions.com/ubuntu focal contrib" | sudo tee /etc/apt/sources.list.d/erlang-solution.list
-sudo apt update
-sudo apt-get install -y erlang-base \
-                        erlang-asn1 erlang-crypto erlang-eldap erlang-ftp erlang-inets \
-                        erlang-mnesia erlang-os-mon erlang-parsetools erlang-public-key \
-                        erlang-runtime-tools erlang-snmp erlang-ssl \
-                        erlang-syntax-tools erlang-tftp erlang-tools erlang-xmerl
+
+wget -c https://packages.erlang-solutions.com/erlang/debian/pool/esl-erlang_24.2-1~ubuntu~focal_amd64.deb -O esl-erlang-24.deb --continue
+
+sudo dpkg -i esl-erlang-24.deb
+
+rm esl-erlang-24.deb
 
 ```
 
@@ -32,7 +30,6 @@ sudo apt-get install -y erlang-base \
 ### Installation
 ```bash
 make
-make install
 make start
 ```
 
