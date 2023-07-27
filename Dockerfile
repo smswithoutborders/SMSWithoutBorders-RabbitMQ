@@ -1,6 +1,7 @@
 FROM rabbitmq:3.11-management
 
 COPY ./rabbitmq.conf /etc/rabbitmq/rabbitmq.conf
+COPY ./rabbitmq-env.conf /etc/rabbitmq/rabbitmq-env.conf
 
 RUN apt update && apt install -y curl
 
